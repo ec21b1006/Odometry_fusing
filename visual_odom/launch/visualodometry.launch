@@ -1,0 +1,25 @@
+<launch>
+
+<arg name="stereo_namespace"        default="/zed2i"/>
+
+<!-- <arg name="odom_frame_id"           default="/odomframeid"/> -->
+<!-- <include file="$(find rtabmap_ros/launch/rtabmap.launch)">
+  <arg name="depth_image_transport"   default="compressedDepth"/>
+  <arg name="rgb_topic"               default="/camera/rgb/image_rect_color" />
+  <arg name="depth_topic"             default="/camera/depth_registered/image_raw" />
+</include> -->
+
+<include file="$(find rtabmap_ros)/launch/stereo_mapping.launch">
+  <arg name="frame_id"                value="base_link"/>
+  <arg name="rtabmap_args"            default="--delete_db_on_start"/>   <!-- delete_db_on_start, udebug -->
+  <arg name="stereo_namespace"        value="$(arg stereo_namespace)"/>
+  <arg name="left_image_topic"        value="$(arg stereo_namespace)/zed_node/left/image_rect_color" />
+  <arg name="right_image_topic"       value="$(arg stereo_namespace)/zed_node/right/image_rect_color" />      <!-- using grayscale image for efficiency -->
+  <arg name="left_camera_info_topic"  value="$(arg stereo_namespace)/zed_node/left/camera_info" />
+  <arg name="right_camera_info_topic" value="$(arg stereo_namespace)/zed_node/right/camera_info" />
+  <arg name="compressed"              value="true"/>
+  <arg name="odom_topic"              value="/odom"/>                       <!-- Odometry topic used if visual_odometry is false -->
+  <!-- <arg name="odom_frame_id"           value="$(arg odom_frame_id)"/>              If set, TF is used to get odometry instead of the topic -->
+</include>
+
+</launch>

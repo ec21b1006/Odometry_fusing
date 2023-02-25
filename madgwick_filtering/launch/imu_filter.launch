@@ -1,0 +1,14 @@
+<launch>
+  <arg name="three_d" default="true" />
+
+  <node if="$(arg three_d)"
+    name="imu_filter_node"
+    pkg="imu_filter_madgwick"
+    type="imu_filter_node">
+    <rosparam command="load"
+      file="$(find madgwick_filtering)/config/imu_filter.yaml" />
+      <remap from="/imu/data_raw" to="/zed2i/zed_node/imu/data_raw"/>
+      <remap from="/imu/mag"      to="/zed2i/zed_node/imu/mag"/>
+  </node>
+
+</launch>
